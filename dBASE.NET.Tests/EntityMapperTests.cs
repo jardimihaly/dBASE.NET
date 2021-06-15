@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Aronic.dBASE.NET.Tests
 {
-    internal class TestEntity
+    internal class TestEntity : IDbfBaseEntity
     {
         [DbfField]
         public int ID { get; set; }
@@ -17,6 +17,8 @@ namespace Aronic.dBASE.NET.Tests
         public int Age { get; set; }
 
         public bool Something { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 
     [TestClass]
@@ -80,12 +82,21 @@ namespace Aronic.dBASE.NET.Tests
             dbf.Read("fixtures/mapper/mapper.dbf");
             var entites = new List<TestEntity>(dbf.GetEntities<TestEntity>());
             Assert.AreEqual(3, entites.Count);
+
             Assert.AreEqual(1, entites[0].ID);
             Assert.AreEqual("John Doe", entites[0].Name);
             Assert.AreEqual(30, entites[0].Age);
+            Assert.AreEqual(false, entites[0].IsDeleted);
+
             Assert.AreEqual(2, entites[1].ID);
             Assert.AreEqual("Jane Doe", entites[1].Name);
             Assert.AreEqual(25, entites[1].Age);
+            Assert.AreEqual(false, entites[1].IsDeleted);
+
+            Assert.AreEqual(3, entites[2].ID);
+            Assert.AreEqual("I'm removed", entites[2].Name);
+            Assert.AreEqual(99, entites[2].Age);
+            Assert.AreEqual(true, entites[2].IsDeleted);
         }
 
         [TestMethod]
@@ -97,14 +108,16 @@ namespace Aronic.dBASE.NET.Tests
             {
                 ID = 1,
                 Age = 12,
-                Name = "Bobby Doe"
+                Name = "Bobby Doe",
+                IsDeleted = false
             });
 
             entities.Add(new TestEntity
             {
                 ID = 2,
                 Age = 14,
-                Name = "Stacy Doe"
+                Name = "Stacy Doe",
+                IsDeleted = true
             });
             dbf.AddEntities(entities);
             dbf.Write("mapper-test.dbf");
@@ -114,12 +127,16 @@ namespace Aronic.dBASE.NET.Tests
             var entitiesFromDBf = new List<TestEntity>(check.GetEntities<TestEntity>());
 
             Assert.AreEqual(2, entitiesFromDBf.Count);
+
             Assert.AreEqual(1, entitiesFromDBf[0].ID);
             Assert.AreEqual("Bobby Doe", entitiesFromDBf[0].Name);
             Assert.AreEqual(12, entitiesFromDBf[0].Age);
+            Assert.AreEqual(false, entitiesFromDBf[0].IsDeleted);
+
             Assert.AreEqual(2, entitiesFromDBf[1].ID);
             Assert.AreEqual("Stacy Doe", entitiesFromDBf[1].Name);
             Assert.AreEqual(14, entitiesFromDBf[1].Age);
+            Assert.AreEqual(true, entitiesFromDBf[1].IsDeleted);
         }
     }
 }

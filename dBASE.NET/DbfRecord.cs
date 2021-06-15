@@ -133,6 +133,7 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         public void FromEntity<T>(T obj)
+            where T : IDbfBaseEntity
         {
             var properties = GetDecoratedProperties(obj);
 
@@ -152,6 +153,8 @@
                     Data[GetFieldIndex(attribute.Name)] = property.GetValue(obj);
                 }
             }
+
+            IsDeleted = obj.IsDeleted;
         }
 
         /// <summary>
@@ -160,6 +163,7 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         public void ToEntity<T>(T obj)
+            where T : IDbfBaseEntity
         {
             var properties = GetDecoratedProperties(obj);
 
@@ -179,6 +183,8 @@
                     property.SetValue(obj, Data[GetFieldIndex(attribute.Name)]);
                 }
             }
+
+            obj.IsDeleted = IsDeleted;
         }
 
         internal PropertyInfo[] GetDecoratedProperties(object obj)

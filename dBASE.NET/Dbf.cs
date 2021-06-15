@@ -61,6 +61,7 @@
         }
 
         public DbfRecord CreateRecord<T>(T entity)
+            where T : IDbfBaseEntity
         {
             var record = CreateRecord();
             record.FromEntity(entity);
@@ -74,6 +75,7 @@
         /// <param name="entities"></param>
         /// <returns></returns>
         public IEnumerable<DbfRecord> AddEntities<T>(IEnumerable<T> entities)
+            where T : IDbfBaseEntity
         {
             var records = new List<DbfRecord>();
 
@@ -91,6 +93,7 @@
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public IEnumerable<T> GetEntities<T>()
+            where T : IDbfBaseEntity
         {
             var entities = new List<T>();
 
