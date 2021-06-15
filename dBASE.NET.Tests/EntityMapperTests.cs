@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace dBASE.NET.Tests
+namespace Aronic.dBASE.NET.Tests
 {
     internal class TestEntity
     {

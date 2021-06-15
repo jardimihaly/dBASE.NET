@@ -2,13 +2,14 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Aronic.dBASE.NET;
 
-namespace dBASE.NET.Tests
+namespace Aronic.dBASE.NET.Tests
 {
-	/// <summary>
-	/// VisualFoxPro is version 0x30.
-	/// </summary>
-	[TestClass]
+    /// <summary>
+    /// VisualFoxPro is version 0x30.
+    /// </summary>
+    [TestClass]
 	public class VisualFoxPro
 	{
 		private Dbf dbf;

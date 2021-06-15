@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace dBASE.NET.Tests
+namespace Aronic.dBASE.NET.Tests
 {
     [TestClass]
     public class DbfRecordTests

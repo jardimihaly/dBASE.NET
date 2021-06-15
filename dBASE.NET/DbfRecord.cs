@@ -1,6 +1,6 @@
-﻿namespace dBASE.NET
+﻿namespace Aronic.dBASE.NET
 {
-    using dBASE.NET.Encoders;
+    using Aronic.dBASE.NET.Encoders;
     using System;
     using System.Collections.Generic;
     using System.IO;

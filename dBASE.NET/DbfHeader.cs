@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Aronic.dBASE.NET;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dBASE.NET
+namespace Aronic.dBASE.NET
 {
-	/// <summary>
-	/// The DbfHeader is an abstract base class for headers of different
-	/// flavors of dBASE files.
-	/// </summary>
-	public abstract class DbfHeader
+    /// <summary>
+    /// The DbfHeader is an abstract base class for headers of different
+    /// flavors of dBASE files.
+    /// </summary>
+    public abstract class DbfHeader
 	{
 		/// <summary>
 		/// dBASE version

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dBASE.NET
+namespace Aronic.dBASE.NET
 {
     /// <summary>
     /// Defines a field within an entity

@@ -1,4 +1,4 @@
-﻿namespace dBASE.NET
+﻿namespace Aronic.dBASE.NET
 {
     using System;
     using System.IO;
@@ -39,24 +39,24 @@
 
         public DbfField(string name, DbfFieldType type, byte length, byte precision = 0)
         {
-            this.Name = name;
-            this.Type = type;
-            this.Length = length;
-            this.Precision = precision;
-            this.WorkAreaID = 0;
-            this.Flags = 0;
+            Name = name;
+            Type = type;
+            Length = length;
+            Precision = precision;
+            WorkAreaID = 0;
+            Flags = 0;
         }
 
         /// <inheritdoc />
         public bool Equals(DbfField other)
         {
             return other != null
-                   && this.Name == other.Name
-                   && this.Type == other.Type
-                   && this.Length == other.Length
-                   && this.Precision == other.Precision
-                   && this.WorkAreaID == other.WorkAreaID
-                   && this.Flags == other.Flags;
+                   && Name == other.Name
+                   && Type == other.Type
+                   && Length == other.Length
+                   && Precision == other.Precision
+                   && WorkAreaID == other.WorkAreaID
+                   && Flags == other.Flags;
         }
 
         /// <inheritdoc />
@@ -90,9 +90,11 @@
         internal void Write(BinaryWriter writer, Encoding encoding)
         {
             // Pad field name with 0-bytes, then save it.
-            string name = this.Name;
-            if (name.Length > 11) name = name.Substring(0, 11);
-            while (name.Length < 11) name += '\0';
+            string name = Name;
+            if (name.Length > 11)
+                name = name.Substring(0, 11);
+            while (name.Length < 11)
+                name += '\0';
             byte[] nameBytes = encoding.GetBytes(name);
             writer.Write(nameBytes); // 11 bytes.
 
@@ -105,7 +107,8 @@
             writer.Write((ushort)0); // 2 reserved byte.
             writer.Write(Flags);
 
-            for (int i = 0; i < 8; i++) writer.Write((byte)0); // 8 reserved bytes.
+            for (int i = 0; i < 8; i++)
+                writer.Write((byte)0); // 8 reserved bytes.
         }
     }
 }

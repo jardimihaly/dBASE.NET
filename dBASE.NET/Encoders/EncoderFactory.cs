@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dBASE.NET.Encoders
+namespace Aronic.dBASE.NET.Encoders
 {
 	internal class EncoderFactory
 	{

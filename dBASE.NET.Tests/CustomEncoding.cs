@@ -1,9 +1,9 @@
-﻿namespace dBASE.NET.Tests
+﻿namespace Aronic.dBASE.NET.Tests
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-
+    using Aronic.dBASE.NET;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

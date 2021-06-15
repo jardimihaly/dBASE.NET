@@ -1,4 +1,4 @@
-﻿namespace dBASE.NET
+﻿namespace Aronic.dBASE.NET
 {
     using System;
     using System.Collections.Generic;
@@ -45,7 +45,7 @@
 
         /// <summary>
         /// The <see cref="System.Text.Encoding" /> class that corresponds to the specified code page.
-        /// Default value is <see cref="System.Text.Encoding.ASCII" />
+        /// Default value is <see cref="Encoding.ASCII" />
         /// </summary>
         public Encoding Encoding { get; } = Encoding.ASCII;
 
@@ -96,7 +96,7 @@
 
             foreach (var record in Records)
             {
-                var entity = (T) Activator.CreateInstance(typeof(T));
+                var entity = (T)Activator.CreateInstance(typeof(T));
                 record.ToEntity(entity);
                 entities.Add(entity);
             }

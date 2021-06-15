@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aronic.dBASE.NET;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dBASE.NET
+namespace Aronic.dBASE.NET
 {
-	public class Dbf3Header : DbfHeader
+    public class Dbf3Header : DbfHeader
 	{
 		internal override void Read(BinaryReader reader)
 		{

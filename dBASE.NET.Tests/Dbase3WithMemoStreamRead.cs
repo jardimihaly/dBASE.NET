@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
+using Aronic.dBASE.NET;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace dBASE.NET.Tests
+namespace Aronic.dBASE.NET.Tests
 {
     /// <summary>
     /// DBase3WithMemo is version 0x83.

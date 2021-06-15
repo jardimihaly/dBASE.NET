@@ -1,9 +1,9 @@
-﻿namespace dBASE.NET.Tests.Encoders
+﻿namespace Aronic.dBASE.NET.Tests.Encoders
 {
     using System;
     using System.Text;
-
-    using dBASE.NET.Encoders;
+    using Aronic.dBASE.NET;
+    using Aronic.dBASE.NET.Encoders;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

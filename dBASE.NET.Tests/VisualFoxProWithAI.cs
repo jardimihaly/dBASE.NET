@@ -1,12 +1,13 @@
 ﻿using System;
+using Aronic.dBASE.NET;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace dBASE.NET.Tests
+namespace Aronic.dBASE.NET.Tests
 {
-	/// <summary>
-	/// VisualFoxProWithAI is version 0x31.
-	/// </summary>
-	[TestClass]
+    /// <summary>
+    /// VisualFoxProWithAI is version 0x31.
+    /// </summary>
+    [TestClass]
 	public class VisualFoxProWithAI
 	{
 		private Dbf dbf;

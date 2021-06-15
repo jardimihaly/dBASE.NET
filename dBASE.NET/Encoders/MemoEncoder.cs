@@ -1,5 +1,6 @@
-﻿namespace dBASE.NET.Encoders
+﻿namespace Aronic.dBASE.NET.Encoders
 {
+    using Aronic.dBASE.NET;
     using System;
     using System.Text;
 

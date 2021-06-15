@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dBASE.NET
+namespace Aronic.dBASE.NET
 {
 	/// <summary>
 	/// Not all types are currently implemented.

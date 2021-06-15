@@ -1,9 +1,10 @@
 ﻿using System;
+using Aronic.dBASE.NET;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace dBASE.NET.Tests
+namespace Aronic.dBASE.NET.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class FoxProWithMemo
 	{
 		private Dbf dbf;

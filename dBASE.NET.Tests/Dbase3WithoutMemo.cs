@@ -1,12 +1,13 @@
 ﻿using System;
+using Aronic.dBASE.NET;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace dBASE.NET.Tests
+namespace Aronic.dBASE.NET.Tests
 {
-	/// <summary>
-	/// DBase3WithoutMemo is version 0x03.
-	/// </summary>
-	[TestClass]
+    /// <summary>
+    /// DBase3WithoutMemo is version 0x03.
+    /// </summary>
+    [TestClass]
 	public class DBase3WithoutMemo
 	{
 		Dbf dbf;
