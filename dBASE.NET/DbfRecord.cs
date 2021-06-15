@@ -19,13 +19,28 @@
 
         private List<DbfField> fields;
 
+        private DbfRecordDeletedFlag deletedMarker = DbfRecordDeletedFlag.NotDeleted;
+
+        public bool IsDeleted
+        {
+            get
+            {
+                return deletedMarker == DbfRecordDeletedFlag.Deleted;
+            }
+
+            set
+            {
+                deletedMarker = value ? DbfRecordDeletedFlag.Deleted : DbfRecordDeletedFlag.NotDeleted;
+            }
+        }
+
         internal DbfRecord(BinaryReader reader, DbfHeader header, List<DbfField> fields, byte[] memoData, Encoding encoding)
         {
             this.fields = fields;
             Data = new List<object>();
 
             // Read record marker.
-            byte marker = reader.ReadByte();
+            deletedMarker = (DbfRecordDeletedFlag) reader.ReadByte();
 
             // Read entire record as sequence of bytes.
             // Note that record length includes marker.
@@ -54,7 +69,7 @@
         {
             this.fields = fields;
             Data = new List<object>();
-            foreach (DbfField field in fields) Data.Add(null);
+            foreach (var _ in fields) Data.Add(null);
         }
 
         public List<object> Data { get; }
@@ -225,8 +240,7 @@
 
         internal void Write(BinaryWriter writer, Encoding encoding)
         {
-            // Write marker (always "not deleted")
-            writer.Write((byte)0x20);
+            writer.Write((byte) deletedMarker);
 
             int index = 0;
             foreach (DbfField field in fields)

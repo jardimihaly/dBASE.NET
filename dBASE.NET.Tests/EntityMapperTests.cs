@@ -79,7 +79,7 @@ namespace Aronic.dBASE.NET.Tests
             var dbf = new Dbf();
             dbf.Read("fixtures/mapper/mapper.dbf");
             var entites = new List<TestEntity>(dbf.GetEntities<TestEntity>());
-            Assert.AreEqual(2, entites.Count);
+            Assert.AreEqual(3, entites.Count);
             Assert.AreEqual(1, entites[0].ID);
             Assert.AreEqual("John Doe", entites[0].Name);
             Assert.AreEqual(30, entites[0].Age);
