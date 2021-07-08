@@ -135,8 +135,12 @@
         public void FromEntity<T>(T obj)
             where T : IDbfBaseEntity
         {
-            var properties = GetDecoratedProperties(obj);
+            FromEntity(obj, GetDecoratedProperties(obj));
+        }
 
+        public void FromEntity<T>(T obj, PropertyInfo[] properties)
+            where T : IDbfBaseEntity
+        {
             foreach (var property in properties)
             {
                 var attribute = property.GetCustomAttribute(typeof(DbfFieldAttribute)) as DbfFieldAttribute;
@@ -165,20 +169,24 @@
         public void ToEntity<T>(T obj)
             where T : IDbfBaseEntity
         {
-            var properties = GetDecoratedProperties(obj);
+            ToEntity(obj, GetDecoratedProperties(obj));
+        }
 
+        public void ToEntity<T>(T obj, PropertyInfo[] properties)
+            where T : IDbfBaseEntity
+        {
             foreach (var property in properties)
             {
                 var attribute = property.GetCustomAttribute(typeof(DbfFieldAttribute)) as DbfFieldAttribute;
 
-                if(attribute == null)
+                if (attribute == null)
                 {
                     throw new InvalidOperationException(
                         $"Property {property.Name} does not have the DbfField attribute!"
                     );
                 }
 
-                if(property.CanWrite)
+                if (property.CanWrite)
                 {
                     property.SetValue(obj, Data[GetFieldIndex(attribute.Name)]);
                 }
@@ -187,7 +195,7 @@
             obj.IsDeleted = IsDeleted;
         }
 
-        internal PropertyInfo[] GetDecoratedProperties(object obj)
+        static internal PropertyInfo[] GetDecoratedProperties(object obj)
         {
             var decoratedProperties = new List<PropertyInfo>();
 

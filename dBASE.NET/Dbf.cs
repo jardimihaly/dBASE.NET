@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -78,10 +79,16 @@
             where T : IDbfBaseEntity
         {
             var records = new List<DbfRecord>();
-
-            foreach (var entity in entities)
+            if(entities.Count() > 0)
             {
-                records.Add(CreateRecord(entity));
+                var properties = DbfRecord.GetDecoratedProperties(entities.First());
+
+                foreach (var entity in entities)
+                {
+                    var record = CreateRecord();
+                    record.FromEntity(entity, properties);
+                    records.Add(record);
+                }
             }
 
             return records;
@@ -100,7 +107,7 @@
             foreach (var record in Records)
             {
                 var entity = (T)Activator.CreateInstance(typeof(T));
-                record.ToEntity(entity);
+                record.ToEntity(entity, DbfRecord.GetDecoratedProperties(entity));
                 entities.Add(entity);
             }
 
