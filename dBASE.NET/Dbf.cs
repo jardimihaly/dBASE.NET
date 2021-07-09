@@ -4,7 +4,10 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// The Dbf class encapsulated a dBASE table (.dbf) file, allowing
@@ -78,8 +81,8 @@
         public IEnumerable<DbfRecord> AddEntities<T>(IEnumerable<T> entities)
             where T : IDbfBaseEntity
         {
-            var records = new List<DbfRecord>();
-            if(entities.Count() > 0)
+            var records = new List<DbfRecord>(Records.Count());
+            if (entities.Count() > 0)
             {
                 var properties = DbfRecord.GetDecoratedProperties(entities.First());
 
@@ -102,16 +105,98 @@
         public IEnumerable<T> GetEntities<T>()
             where T : IDbfBaseEntity
         {
-            var entities = new List<T>();
+            if (Records.Count() == 0)
+            {
+                return new T[0];
+            }
 
+            var entities = new List<T>(Records.Count());
+            var templateObject = (T)Activator.CreateInstance(typeof(T));
+            var properties = DbfRecord.GetDecoratedProperties(templateObject);
             foreach (var record in Records)
             {
                 var entity = (T)Activator.CreateInstance(typeof(T));
-                record.ToEntity(entity, DbfRecord.GetDecoratedProperties(entity));
+                record.ToEntity(entity, properties);
                 entities.Add(entity);
             }
 
             return entities;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public async Task<IEnumerable<T>> GetEntitiesAsync<T>()
+            where T : IDbfBaseEntity
+        {
+            if(Records.Count == 0)
+            {
+                return new T[0];
+            }
+
+            var output = new T[Records.Count];
+
+            var templateObject = (T)Activator.CreateInstance(typeof(T));
+            var properties = DbfRecord.GetDecoratedProperties(templateObject);
+
+            if (Environment.ProcessorCount < Records.Count)
+            {
+                var tasks = new List<Task>(Environment.ProcessorCount + 1);
+                double chunksize = (double)Records.Count / Environment.ProcessorCount;
+
+                if(chunksize == (int)chunksize)
+                {
+                    for (int i = 0; i < Records.Count; i += (int)chunksize)
+                    {
+                        int start = i;
+                        int end = i + (int)chunksize;
+                        tasks.Add(
+                            Task.Run(() => ReadEntityRange(
+                                output, 
+                                start,
+                                end, 
+                                properties
+                            ))
+                        );
+                    }
+                }
+                else
+                {
+                    int chunkLow = (int)chunksize;
+                    for (int i = 0; i < Records.Count; i += chunkLow)
+                    {
+                        int start = i;
+                        int end = i + chunkLow;
+                        if(end > Records.Count)
+                        {
+                            end = Records.Count;
+                        }
+                        tasks.Add(
+                            Task.Run(() => ReadEntityRange(output, start, end, properties))
+                        );
+                    }
+                }
+                await Task.WhenAll(tasks);
+                return output;
+            }
+            else
+            {
+                return GetEntities<T>();
+            }
+        }
+
+        private void ReadEntityRange<T>(T[] target, int from, int to, PropertyInfo[] properties)
+            where T : IDbfBaseEntity
+        {
+            Console.WriteLine($"{from} -> {to}");
+            for(int i = from; i < to; i++)
+            {
+                var entity = (T)Activator.CreateInstance(typeof(T));
+                Records[i].ToEntity(entity, properties);
+                target[i] = entity;
+            }
         }
 
         /// <summary>

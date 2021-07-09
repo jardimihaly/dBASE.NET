@@ -1,7 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Aronic.dBASE.NET.Tests
 {
@@ -137,6 +140,41 @@ namespace Aronic.dBASE.NET.Tests
             Assert.AreEqual("Stacy Doe", entitiesFromDBf[1].Name);
             Assert.AreEqual(14, entitiesFromDBf[1].Age);
             Assert.AreEqual(true, entitiesFromDBf[1].IsDeleted);
+        }
+
+        [TestMethod]
+        public async Task AsyncToEntity()
+        {
+            var dbf = new Dbf();
+            dbf.Fields.Add(new DbfField("ID", DbfFieldType.Integer, 4));
+            dbf.Fields.Add(new DbfField("FULLNAME", DbfFieldType.Character, 25));
+            dbf.Fields.Add(new DbfField("AGE", DbfFieldType.Integer, 4));
+
+            var numberOfEntities = 25_000;
+            for(int i = 0; i < numberOfEntities; i++)
+            {
+                var record = dbf.CreateRecord();
+                record.Data[0] = i;
+                record.Data[1] = Guid.NewGuid().ToString();
+                record.Data[2] = i;
+            }
+
+            var sw = new Stopwatch();
+            sw.Start();
+            var entites = await dbf.GetEntitiesAsync<TestEntity>();
+            sw.Stop();
+            var mtTime = sw.ElapsedMilliseconds;
+            Assert.AreEqual(numberOfEntities, entites.Count());
+            Assert.IsFalse(entites.Any(x => x == null));
+
+            sw.Reset();
+            sw.Start();
+            var entities2 = dbf.GetEntities<TestEntity>();
+            sw.Stop();
+            var stTime = sw.ElapsedMilliseconds;
+
+            Console.WriteLine($"old:{stTime} new:{mtTime}");
+            Assert.IsTrue(mtTime < stTime);
         }
     }
 }
