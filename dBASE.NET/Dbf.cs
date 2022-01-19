@@ -206,7 +206,7 @@
         public void Read(string path)
         {
             // Open stream for reading.
-            using (FileStream baseStream = File.Open(path, FileMode.Open, FileAccess.Read))
+            using (FileStream baseStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 string memoPath = GetMemoPath(path);
                 if (memoPath == null)
@@ -215,7 +215,7 @@
                 }
                 else
                 {
-                    using (FileStream memoStream = File.Open(memoPath, FileMode.Open, FileAccess.Read))
+                    using (FileStream memoStream = File.Open(memoPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         Read(baseStream, memoStream);
                     }
